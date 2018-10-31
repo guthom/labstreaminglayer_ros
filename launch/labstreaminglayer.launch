@@ -1,2 +1,6 @@
 <launch>
+    <node name="labstreaminglayer_synchronizer" pkg="labstreaminglayer_ros" type="labstreaminglayer_synchronizer" output="screen">
+        <rosparam command="load" file="$(find labstreaminglayer_ros)/yaml/labstreaminglayer.yaml" />
+        <rosparam command="load" file="$(find labstreaminglayer_ros)/yaml/lsl_maps.yaml" />
+    </node>
 </launch>

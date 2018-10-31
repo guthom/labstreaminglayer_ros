@@ -1,0 +1,31 @@
+[
+  {
+    "commonType": "Image",
+    "rosType": "sensor_msgs/Image",
+    "lslStream":
+    {
+        "channels" : 8,
+        "type": "float32"
+    }
+  },
+
+  {
+    "commonType": "Float32",
+    "rosType": "std_msgs/Float32",
+    "lslStream":
+    {
+        "channels" : 1,
+        "type": "float32"
+    }
+  },
+
+    {
+    "commonType": "Bool",
+    "rosType": "std_msgs/Bool",
+    "lslStream":
+    {
+        "channels" : 1,
+        "type": "bool"
+    }
+  }
+]

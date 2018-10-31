@@ -1,1 +1,2 @@
-nodeName = "labstreaminglayer_client"
+nodeName = "labstreaminglayer_synchronizer"
+rate = 30

@@ -1,0 +1,9 @@
+maps:
+  ROStoLSL:
+  - {commonType: "Float32", rostopic: "/float", lslChannelInfo: {topic: "/floatFromRos", contentType: "Testing"}}
+  - {commonType: "Float32", rostopic: "/float1", lslChannelInfo: {topic: "/floatFromRos1", contentType: "Testing"}}
+  - {commonType: "Float32", rostopic: "/float2", lslChannelInfo: {topic: "/floatFromRos2", contentType: "Testing"}}
+  - {commonType: "Float32", rostopic: "/float3", lslChannelInfo: {topic: "/floatFromRos3", contentType: "Testing"}}
+
+  LSLtoROS:
+  - {commonType: "Float32", rostopic: "/floatFromlsl",  lslChannelInfo: {topic: "/float"}}

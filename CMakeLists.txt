@@ -117,10 +117,10 @@ ENDFOREACH()
 
 #create axecutable and set dependencies
 #SET(NODENAME magic_box)
-#add_executable(${NODENAME} ${SRC_PREFIX}magic_box.cpp)
+#add_executable(${NODENAME} ${SRC_PREFIX}labstreaminglayer_ros.cpp)
 
-#add_dependencies(${NODENAME} ${GLOB_DEPENDENCIES} magic_box_actions)
-#target_link_libraries(${NODENAME} ${LINKLIBS} ${GLOB_LINKLIBS} magic_box_actions)
+#add_dependencies(${NODENAME} ${GLOB_DEPENDENCIES} labstreaminglayer_ros_actions)
+#target_link_libraries(${NODENAME} ${LINKLIBS} ${GLOB_LINKLIBS} labstreaminglayer_ros_actions)
 
 
 #manage installation e.g. all include files
