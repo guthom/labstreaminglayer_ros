@@ -1,13 +1,13 @@
-from mapperBase import MapperBase
+from Mapper import Mapper
 import rospy
 
-class Mapper_LSLtoROS(MapperBase):
+class Mapper_LSLtoROS(Mapper):
 
 
     def __init__(self, commonType, topic, channel, cyclicMode):
-        super(MapperBase, self).__init__(commonType, topic, channel, cyclicMode)
+        super(Mapper, self).__init__(commonType, topic, channel, cyclicMode)
 
-        self.publisher = rospy.Publisher(topic, self.messageConverter.GetRosType(commonType), queue_size=10)
+        self.publisher = rospy.Publisher(topic, self.converter.rosType, queue_size=10)
 
 
 
@@ -15,5 +15,5 @@ class Mapper_LSLtoROS(MapperBase):
         pass
 
     def UpdateData(self):
-        self.publisher.publish(self.conversion.ToROS(self.lastCollectedRosMsg))
+        self.publisher.publish(self.ToROS(self.lastCollectedRosMsg))
         pass

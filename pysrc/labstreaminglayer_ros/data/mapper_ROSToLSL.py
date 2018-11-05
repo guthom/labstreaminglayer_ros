@@ -1,13 +1,13 @@
 import sys, os
 import rospy
-from mapperBase import MapperBase
+from Mapper import Mapper
 
 from importlib import import_module
 
 from pylsl import StreamInfo, StreamOutlet
 projectDir = os.path.join(os.path.dirname(__file__), '../')
 
-class Mapper_ROStoLSL(MapperBase):
+class Mapper_ROStoLSL(Mapper):
 
     binarySubscriber = None
     lslStreamInfo = None
@@ -15,10 +15,8 @@ class Mapper_ROStoLSL(MapperBase):
     def __init__(self, commonType, topic, channelInfo, cyclicMode):
         super(Mapper_ROStoLSL, self).__init__(commonType, topic, channelInfo, cyclicMode)
 
-        self.subscriber = rospy.Subscriber(self.topic, self.GetRosType(commonType),
-                                           self.SubscriberCallback)
+        self.subscriber = rospy.Subscriber(self.topic, self.converter.rosType, self.SubscriberCallback)
 
-        self.lslStreamInfo = self.GetLSLStreamInfo(self.commonType, self.channelTopic, self.contentType)
         self.publisher = StreamOutlet(self.lslStreamInfo)
 
     def SubscriberCallback(self, data):
@@ -34,6 +32,6 @@ class Mapper_ROStoLSL(MapperBase):
 
     def UpdateData(self):
         if self.lastCollectedRosMsg is not None and self.publisher is not None:
-            self.publisher.push_sample(self.conversion.ToLSL(self.lastCollectedRosMsg.data))
+            self.publisher.push_sample(self.ToLSL(self.lastCollectedRosMsg))
         pass
 

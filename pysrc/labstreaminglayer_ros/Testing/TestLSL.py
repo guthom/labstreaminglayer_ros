@@ -6,10 +6,10 @@ from pylsl import StreamInlet, resolve_stream
 print("looking for an Testing stream...")
 streams = []
 
-streams.append(resolve_stream("name", "/floatFromRos"))
-streams.append(resolve_stream("name", "/floatFromRos1"))
-streams.append(resolve_stream("name", "/floatFromRos2"))
-streams.append(resolve_stream("name", "/floatFromRos3"))
+streams.append(resolve_stream("name", "/tfFromROS"))
+#streams.append(resolve_stream("name", "/floatFromRos1"))
+#streams.append(resolve_stream("name", "/floatFromRos2"))
+#streams.append(resolve_stream("name", "/floatFromRos3"))
 
 
 # create a new inlet to read from the stream
