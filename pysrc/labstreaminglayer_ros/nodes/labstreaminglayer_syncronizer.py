@@ -41,9 +41,8 @@ class LabStreaminLayerSynchronizer:
 
     def InitLSLtoROS(self):
         for map in self.rawTopics_LSLtoROS:
-            #self.mapper.append(commonType=map["commonType"], topic=map["rostopic"],
-            #                                   channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode))
-            pass
+            self.mapper.append(Mapper_LSLtoROS(commonType=map["commonType"], topic=map["rostopic"],
+                                               channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode))
 
     def InitROStoLSL(self):
         for map in self.rawTopics_ROStoLSL:

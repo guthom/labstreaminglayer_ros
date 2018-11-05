@@ -1,5 +1,6 @@
 from ConverterBase import ConverterBase
 
+from std_msgs.msg import Bool as message
 
 class Bool(ConverterBase):
 
@@ -15,4 +16,6 @@ class Bool(ConverterBase):
 
     @staticmethod
     def ToROS(data):
-        return data
+        msg = message()
+        msg.data = data[0][0]
+        return msg

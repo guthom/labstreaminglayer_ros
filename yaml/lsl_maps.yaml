@@ -5,7 +5,8 @@ maps:
       {
       topic: "/floatFromRos",
       contentType: "Testing",
-      frequency: "30"
+      frequency: "30",
+      UID: ""
       }
       }
 
@@ -14,9 +15,17 @@ maps:
     {
       topic: "/tfFromROS",
       contentType: "Testing",
-      frequency: "30"
+      frequency: "30",
+      UID: ""
     }
     }
 
   LSLtoROS:
-  - {commonType: "Float32", rostopic: "/floatFromlsl",  lslChannelInfo: {topic: "/float"}}
+  - {commonType: "Float32", rostopic: "/floatFromlsl",
+  lslChannelInfo:
+    {
+      topic: "/floatFromlsl",
+      contentType: "Testing",
+      frequency: "30",
+      UID: ""
+    }}

@@ -18,8 +18,8 @@ class ConverterBase(object):
 
     @staticmethod
     def ToLSL(data):
-        return [data]
+        raise Exception("ToLSL Method is not implemented yet! DO IT!")
 
     @staticmethod
     def ToROS(data):
-        return data
+        raise Exception("ToROS Method is not implemented yet! DO IT!")

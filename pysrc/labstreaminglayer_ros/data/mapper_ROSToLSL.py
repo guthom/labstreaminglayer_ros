@@ -2,9 +2,7 @@ import sys, os
 import rospy
 from Mapper import Mapper
 
-from importlib import import_module
-
-from pylsl import StreamInfo, StreamOutlet
+from pylsl import StreamOutlet
 projectDir = os.path.join(os.path.dirname(__file__), '../')
 
 class Mapper_ROStoLSL(Mapper):

@@ -1,16 +1,22 @@
-import os, json
+import os, sys
 import rospy
 from abc import abstractmethod
 import Converter
 from pylsl import StreamInfo, StreamOutlet
 
+
+projectDir = os.path.join(os.path.dirname(__file__), '../')
+sys.path.append(projectDir + "nodes")
+import nodeconfig as config
+
 class Mapper(object):
 
     commonType = None
     topic = None
-    channelTopic = None
+    lslTopic = None
     contentType = ""
-    frequency = None
+    lslUID = ""
+    lslFrequency = None
     publisher = None
     subscriber = None
     cyclicMode = False
@@ -19,14 +25,18 @@ class Mapper(object):
     lastLslMsg = None
     lastCollectedLslMsg = None
     converter = None
+    timeout = 0.1
+    lslStreamInfo = None
 
     def __init__(self, commonType, topic, channelInfo, cyclicMode):
         self.converter = self.FindConverter(commonType)
         self.commonType = commonType
         self.topic = topic
 
-        self.frequency = int(channelInfo["frequency"])
-        self.channelTopic = str(channelInfo["topic"])
+        self.lslFrequency = int(channelInfo["frequency"])
+        self.lslTopic = str(channelInfo["topic"])
+        if channelInfo["UID"] != "":
+            self.lslUID = channelInfo["UID"]
 
         if "contentType" in channelInfo:
             self.contentType = str(channelInfo["contentType"])
@@ -36,7 +46,7 @@ class Mapper(object):
         self.lastLslMsg = None
         self.subscriber = None
         self.publisher = None
-
+        self.timeout = config.lslTimeout
 
         self.lslStreamInfo = self.GetLSLStreamInfo()
 
@@ -53,10 +63,11 @@ class Mapper(object):
         return self.converter.rosType
 
     def GetLSLStreamInfo(self,):
-        self.lslStreamInfo = StreamInfo(name=self.channelTopic, type=self.contentType,
-                                        channel_count=self.converter.lslChannels, nominal_srate=self.frequency,
-                                        channel_format=self.converter.lslType)
-        return self.lslStreamInfo
+
+        lslStreamInfo = StreamInfo(name=self.lslTopic, type=self.contentType,
+                                        channel_count=self.converter.lslChannels, nominal_srate=self.lslFrequency,
+                                        channel_format=self.converter.lslType, source_id=self.lslUID)
+        return lslStreamInfo
 
     @staticmethod
     def FindConverter(name):
@@ -72,7 +83,12 @@ class Mapper(object):
         return converter()
 
     def ToROS(self, data):
-        pass
+        if data[0] is not None:
+            return self.converter.ToROS(data)
 
     def ToLSL(self, data):
-        return self.converter.ToLSL(data)
+        if data[0] is not None:
+            return self.converter.ToLSL(data)
+
+    def __del__(self):
+        self.lslStreamInfo.__del__()

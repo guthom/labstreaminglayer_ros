@@ -1,5 +1,5 @@
 from ConverterBase import ConverterBase
-
+from std_msgs.msg import Float32 as message
 
 class Float32(ConverterBase):
     commonType = "float32"
@@ -13,4 +13,6 @@ class Float32(ConverterBase):
 
     @staticmethod
     def ToROS(data):
-        return data
+        msg = message()
+        msg.data = data[0][0]
+        return msg
