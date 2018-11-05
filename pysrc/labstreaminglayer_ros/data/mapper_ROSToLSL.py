@@ -15,10 +15,10 @@ class Mapper_ROStoLSL(MapperBase):
     def __init__(self, commonType, topic, channelInfo, cyclicMode):
         super(Mapper_ROStoLSL, self).__init__(commonType, topic, channelInfo, cyclicMode)
 
-        self.subscriber = rospy.Subscriber(self.topic, self.messageConverter.GetRosType(commonType),
+        self.subscriber = rospy.Subscriber(self.topic, self.GetRosType(commonType),
                                            self.SubscriberCallback)
 
-        self.lslStreamInfo = self.messageConverter.GetLSLStreamInfo(self.commonType, self.channelTopic, self.contentType)
+        self.lslStreamInfo = self.GetLSLStreamInfo(self.commonType, self.channelTopic, self.contentType)
         self.publisher = StreamOutlet(self.lslStreamInfo)
 
     def SubscriberCallback(self, data):
@@ -34,6 +34,6 @@ class Mapper_ROStoLSL(MapperBase):
 
     def UpdateData(self):
         if self.lastCollectedRosMsg is not None and self.publisher is not None:
-            self.publisher.push_sample(self.conversion.ToLSL(self.lastCollectedRosMsg))
+            self.publisher.push_sample(self.conversion.ToLSL(self.lastCollectedRosMsg.data))
         pass
 
