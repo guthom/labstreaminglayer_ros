@@ -10,6 +10,6 @@ class Transform(ConverterBase):
 
     @staticmethod
     def ToLSL(data):
-        translation = data.transform.translation
-        rotation = data.transform.rotation
+        translation = data.translation
+        rotation = data.rotation
         return [translation.x, translation.y, translation.z, rotation.x, rotation.y, rotation.z, rotation.w]

@@ -35,8 +35,10 @@ class LabStreaminLayerSynchronizer:
 
     def InitParameter(self):
         self.cyclicMode = rospy.get_param(self.nodeTopic + "/cyclicMode", default=True)
-        self.rawTopics_ROStoLSL = rospy.get_param(self.nodeTopic + "/maps/ROStoLSL", default=[])
-        self.rawTopics_LSLtoROS = rospy.get_param(self.nodeTopic + "/maps/LSLtoROS", default=[])
+        self.rawTopics_ROStoLSL = rospy.get_param(self.nodeTopic + "/" + config.param_MapsSubtopic +
+                                                  "ROStoLSL", default=[])
+        self.rawTopics_LSLtoROS = rospy.get_param(self.nodeTopic + "/" + config.param_MapsSubtopic +
+                                                  "LSLtoROS", default=[])
         pass
 
     def InitLSLtoROS(self):

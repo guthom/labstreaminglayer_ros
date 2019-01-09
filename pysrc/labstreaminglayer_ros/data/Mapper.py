@@ -83,11 +83,11 @@ class Mapper(object):
         return converter()
 
     def ToROS(self, data):
-        if data[0] is not None:
+        if data is not None:
             return self.converter.ToROS(data)
 
     def ToLSL(self, data):
-        if data[0] is not None:
+        if data is not None:
             return self.converter.ToLSL(data)
 
     def __del__(self):
