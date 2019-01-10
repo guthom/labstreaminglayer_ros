@@ -1,9 +1,9 @@
 from ConverterBase import ConverterBase
-from std_msgs.msg import Float32 as message
+from std_msgs.msg import Float32MultiArray as message
 
 class EEGLiveAmp(ConverterBase):
     commonType = "EEGLiveAmp"
-    rosType = "std_msgs/Float32"
+    rosType = "std_msgs/Float32MultiArray"
     lslChannels = 32
     lslType = "float32"
 
@@ -14,5 +14,5 @@ class EEGLiveAmp(ConverterBase):
     @staticmethod
     def ToROS(data):
         msg = message()
-        msg.data = data[0][0]
+        msg.data.extend(data[0])
         return msg
