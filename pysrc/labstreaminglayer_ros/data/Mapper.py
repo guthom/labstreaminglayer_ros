@@ -92,3 +92,4 @@ class Mapper(object):
 
     def __del__(self):
         self.lslStreamInfo.__del__()
+        self.publisher.close_stream()

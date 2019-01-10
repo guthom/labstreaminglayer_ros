@@ -21,7 +21,6 @@ class LabStreaminLayerSynchronizer:
     mapper = []
 
     def __init__(self):
-        self.Init()
         self.mapper = []
         pass
 
