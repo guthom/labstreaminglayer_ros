@@ -82,7 +82,7 @@ class LabStreaminLayerSynchronizer:
             #update all channels from the LSL and update Stuff (in parallell threads)
             self.UpdateData()
 
-            self.rate.sleep()
+            #self.rate.sleep()
 
     def RunEventBasedMode(self):
         rospy.loginfo("Started " + config.nodeName + " in EventBasedMode")
@@ -99,3 +99,4 @@ class LabStreaminLayerSynchronizer:
             self.RunCyclicMode()
         else:
             self.RunEventBasedMode()
+

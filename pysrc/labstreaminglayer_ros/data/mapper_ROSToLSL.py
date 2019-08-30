@@ -30,6 +30,7 @@ class Mapper_ROStoLSL(Mapper):
 
     def UpdateData(self):
         if self.lastCollectedRosMsg is not None and self.publisher is not None:
+            print "Published Data: " + str(self.lastCollectedRosMsg)
             self.publisher.push_sample(self.ToLSL(self.lastCollectedRosMsg))
         pass
 

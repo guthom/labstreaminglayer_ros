@@ -1,6 +1,6 @@
 """Example program to show how to read a multi-channel time series from LSL."""
 
-from pylsl import StreamOutlet, StreamInfo,
+from pylsl import StreamOutlet, StreamInfo
 
 # first resolve an EEG stream on the lab network
 print("looking for an Testing stream...")

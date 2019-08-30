@@ -2,8 +2,8 @@
 This repository includes the source code for the LSL-ROS-Synchronizer.
 
 ### Prerequisites 
-* Basic installation of ROS
-* Installation of LSL
+* Basic installation of **ROS**
+* Installation of **LSL**
 
 ## Installing
 * Clone the package and all the dependecies in your ROS-Workspace and build it with catkin.
@@ -14,14 +14,13 @@ This repository includes the source code for the LSL-ROS-Synchronizer.
 
 ## Open Source Acknowledgments
 This work uses parts from:
-* **Robot Operation System** (ROS) https://www.ros.org/
+* **Robot Operation System (ROS)**  https://www.ros.org/
 * **Lab Streaming Layer (LSL)** https://github.com/sccn/labstreaminglayer
 * **
 
 **Thanks to ALL the people who contributed to the projects!**
 
 ## Authors
-
 * **Thomas Gulde** - Main Author
 
 Cognitive Systems Research Group, Reutlingen-University:

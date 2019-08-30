@@ -1,0 +1,31 @@
+maps:
+  ROStoLSL:
+  - {commonType: "Float32", rostopic: "/float",
+  lslChannelInfo:
+      {
+      topic: "/floatFromRos",
+      contentType: "Testing",
+      frequency: "30",
+      UID: ""
+      }
+      }
+
+  - {commonType: "TransformStamped", rostopic: "/TransformStamped",
+  lslChannelInfo:
+    {
+      topic: "/tfFromROS",
+      contentType: "Testing",
+      frequency: "30",
+      UID: ""
+    }
+    }
+
+  LSLtoROS:
+  - {commonType: "Float32", rostopic: "/floatFromlsl",
+  lslChannelInfo:
+    {
+      topic: "/floatFromlsl",
+      contentType: "Testing",
+      frequency: "30",
+      UID: ""
+    }}
