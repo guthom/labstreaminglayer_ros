@@ -6,14 +6,17 @@ from pylsl import StreamOutlet
 projectDir = os.path.join(os.path.dirname(__file__), '../')
 
 class Mapper_ROStoLSL(Mapper):
+    def __init__(self, commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional):
 
-    binarySubscriber = None
-    lslStreamInfo = None
+        self.binarySubscriber = None
+        self.lslStreamInfo = None
 
-    def __init__(self, commonType, topic, channelInfo, cyclicMode):
-        super(Mapper_ROStoLSL, self).__init__(commonType, topic, channelInfo, cyclicMode)
+        super(Mapper_ROStoLSL, self).__init__(commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional)
 
-        self.subscriber = rospy.Subscriber(self.topic, self.converter.rosType, self.SubscriberCallback)
+        if useLSLTypesBidirectional is False and self.converter.rosStdType is not None:
+            self.subscriber = rospy.Subscriber(self.topic, self.converter.rosStdType, self.SubscriberCallback)
+        else:
+            self.subscriber = rospy.Subscriber(self.topic, self.converter.rosType, self.SubscriberCallback)
 
         self.publisher = StreamOutlet(self.lslStreamInfo)
 
@@ -27,10 +30,16 @@ class Mapper_ROStoLSL(Mapper):
 
     def CollectData(self):
         self.lastCollectedRosMsg = self.lastRosMsg
+        self.lastRosMsg = None
 
     def UpdateData(self):
         if self.lastCollectedRosMsg is not None and self.publisher is not None:
-            print "Published Data: " + str(self.lastCollectedRosMsg)
             self.publisher.push_sample(self.ToLSL(self.lastCollectedRosMsg))
+            self.lastCollectedRosMsg = None
         pass
+
+    def __del__(self):
+        self.lslStreamInfo.__del__()
+        self.publisher.close_stream()
+
 

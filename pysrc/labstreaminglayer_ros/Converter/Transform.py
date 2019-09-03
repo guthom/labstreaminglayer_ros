@@ -1,12 +1,17 @@
 from ConverterBase import ConverterBase
-
+from labstreaminglayer_ros.msg import LSLTransform as message
+from geometry_msgs.msg import Transform as stdmessage
 
 class Transform(ConverterBase):
 
-    commonType = "Transform"
-    rosType = "geometry_msgs/Transform"
-    lslChannels = 7
-    lslType = "float32"
+    def __init__(self):
+        super(Transform, self).__init__(
+            commonType="Transform",
+            rosType=message,
+            rosStdType=stdmessage,
+            lslChannels=7,
+            lslType="float32"
+            )
 
     @staticmethod
     def ToLSL(data):

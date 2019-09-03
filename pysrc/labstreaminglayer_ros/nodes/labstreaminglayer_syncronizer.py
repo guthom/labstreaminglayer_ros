@@ -34,6 +34,8 @@ class LabStreaminLayerSynchronizer:
 
     def InitParameter(self):
         self.cyclicMode = rospy.get_param(self.nodeTopic + "/cyclicMode", default=True)
+        self.useLSLTypesBidirectional = rospy.get_param(self.nodeTopic + "/useLSLTypesBidirectional", default=False)
+
         self.rawTopics_ROStoLSL = rospy.get_param(self.nodeTopic + "/" + config.param_MapsSubtopic +
                                                   "ROStoLSL", default=[])
         self.rawTopics_LSLtoROS = rospy.get_param(self.nodeTopic + "/" + config.param_MapsSubtopic +
@@ -41,14 +43,35 @@ class LabStreaminLayerSynchronizer:
         pass
 
     def InitLSLtoROS(self):
+        rospy.loginfo("Map LSL to ROS:")
+
+        if len(self.rawTopics_LSLtoROS) == 0:
+            rospy.loginfo("Nothing")
+
         for map in self.rawTopics_LSLtoROS:
             self.mapper.append(Mapper_LSLtoROS(commonType=map["commonType"], topic=map["rostopic"],
-                                               channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode))
+                                               channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode,
+                                               useLSLTypesBidirectional=self.useLSLTypesBidirectional))
+
+            rospy.loginfo("(LSL)" + self.mapper[-1].lslTopic + " -> " + self.mapper[-1].topic + "(ROS)" + " Type: " +
+                          str(self.mapper[-1].converter.rosType))
 
     def InitROStoLSL(self):
+        rospy.loginfo("Map ROS to LSL:")
+
+        if len(self.rawTopics_ROStoLSL) == 0:
+            rospy.loginfo("Nothing")
+
         for map in self.rawTopics_ROStoLSL:
             self.mapper.append(Mapper_ROStoLSL(commonType=map["commonType"], topic=map["rostopic"],
-                                               channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode))
+                                               channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode,
+                                               useLSLTypesBidirectional=self.useLSLTypesBidirectional))
+
+            rospy.loginfo("(ROS)" + self.mapper[-1].topic + " -> " + self.mapper[-1].lslTopic + "(LSL)" + " Type: "
+                          + str(self.mapper[-1].converter.lslType))
+
+
+
 
     def CollectData(self):
         jobs = []

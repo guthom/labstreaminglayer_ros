@@ -46,18 +46,19 @@ MESSAGE(STATUS "Found ROS-Actions: " ${ACTIONS})
 #find catkin packages
 find_package(catkin REQUIRED
     message_generation
+    geometry_msgs
     roscpp
     rospy    
-    genmsg )
+    genmsg)
     
 #init python
 catkin_python_setup()
 
 #add all message files
-#add_message_files(
-#    FILES
-#    ${MESSAGES}
-#)
+add_message_files(
+    FILES
+    ${MESSAGES}
+)
 
 #add all services
 #add_service_files(
@@ -70,7 +71,8 @@ catkin_python_setup()
 #generate messages 
 generate_messages(
    DEPENDENCIES
-   std_msgs   
+   std_msgs
+   geometry_msgs
 )
 
 

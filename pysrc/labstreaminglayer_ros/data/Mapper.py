@@ -4,39 +4,27 @@ from abc import abstractmethod
 import Converter
 from pylsl import StreamInfo, StreamOutlet
 
-
 projectDir = os.path.join(os.path.dirname(__file__), '../')
 sys.path.append(projectDir + "nodes")
+
 import nodeconfig as config
 
 class Mapper(object):
 
-    commonType = None
-    topic = None
-    lslTopic = None
-    contentType = ""
-    lslUID = ""
-    lslFrequency = None
-    publisher = None
-    subscriber = None
-    cyclicMode = False
-    lastRosMsg = None
-    lastCollectedRosMsg = None
-    lastLslMsg = None
-    lastCollectedLslMsg = None
-    converter = None
-    timeout = 0.1
-    lslStreamInfo = None
-
-    def __init__(self, commonType, topic, channelInfo, cyclicMode):
+    def __init__(self, commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional):
         self.converter = self.FindConverter(commonType)
         self.commonType = commonType
         self.topic = topic
+        self.useLSLTypesBidirectional = useLSLTypesBidirectional
+
+        if self.useLSLTypesBidirectional is True:
+            self.converter.rosStdType = self.converter.rosType
+
 
         self.lslFrequency = int(channelInfo["frequency"])
         self.lslTopic = str(channelInfo["topic"])
-        if channelInfo["UID"] != "":
-            self.lslUID = channelInfo["UID"]
+
+        self.lslUID = channelInfo["UID"]
 
         if "contentType" in channelInfo:
             self.contentType = str(channelInfo["contentType"])
@@ -47,8 +35,10 @@ class Mapper(object):
         self.subscriber = None
         self.publisher = None
         self.timeout = config.lslTimeout
+        self.cyclicMode = cyclicMode
 
         self.lslStreamInfo = self.GetLSLStreamInfo()
+
 
 
     @abstractmethod
@@ -90,6 +80,7 @@ class Mapper(object):
         if data is not None:
             return self.converter.ToLSL(data)
 
+    @abstractmethod
     def __del__(self):
-        self.lslStreamInfo.__del__()
-        self.publisher.close_stream()
+        raise Exception("Not Implemented!")
+

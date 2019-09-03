@@ -6,7 +6,7 @@ from pylsl import StreamOutlet, StreamInfo
 print("looking for an Testing stream...")
 outlets = []
 
-streamInfo = StreamInfo(name="/LiveAmpSN-054208-0183", type="EEG",channel_count=1, nominal_srate=30,
+streamInfo = StreamInfo(name="/floatFromlsl", type="EEG", channel_count=1, nominal_srate=30,
                                         channel_format="float32")
 outlets.append(StreamOutlet(streamInfo))
 
