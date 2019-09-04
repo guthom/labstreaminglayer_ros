@@ -1,14 +1,25 @@
 # Labstreaminglayer ros synchronizer
 This repository includes the source code for the 
-LSL-ROS-Synchronizer.
+LSL-ROS-Synchronizer. This tool can be used to exchange data from ROS based environments to LSL based environments and vice versa. 
+
+This is work in progress and we may not use all the whole potential and options both systems have to offer. If you have any suggestions or feedback do not hesitate to get in touch with us. 
 
 ### Prerequisites 
 * Basic installation of **ROS**
 * Installation of **LSL**
 
 ## Installing
-* Clone the package and all the dependecies in your 
+* Clone the package and all the dependencies in your 
 ROS-Workspace and build it with catkin.
+
+## Usage
+* just launch the included *labstreaminglayer.launch* file in your ros environment. 
+
+    ```bash
+    roslaunch labstreaminglayer_ros labstreaminglayer.launch 
+    ```
+
+Please note that this the launchfile automatically loads the two parameter files *labstreaminglayer.yaml* and *lsl_maps.yaml* see the description further down for details.
 
 ## Structure of the ROS-Package
 
@@ -36,14 +47,16 @@ ROS-Workspace and build it with catkin.
     └── ...
 
 ## Main Idea of the Synchronization
+ToDo
 
-## Configuration
+## Configuration and Parameter
 To configure package you need to edit the *.yaml files within the *Config* directory of the package.
 
 * **labstreaminglayer.yaml**
     ```yaml
     cyclicMode: True
-    useLSLTypesBidirectional: True
+    useLSLTypesBidirectional: False
+    includeLSLTimestamps: True
     ```
     * **cyclicMode (Bool)** - *Default: True*
 
@@ -51,7 +64,11 @@ To configure package you need to edit the *.yaml files within the *Config* direc
 
     * **useLSLTypesBidirectional(Bool)** - *Default: False*
 
-        set True if you want to use the specific LSL-Message Types (eg. LSLBool) on both ROS and LSL side. Keep it False allow for streaming standard ROS-Messages direktly to LSL
+        set True if you want to use the specific LSL-Message Types (eg. LSLBool) on both ROS and LSL side. Keep it False allow for streaming standard ROS-Messages directly to LSL
+    
+    * **includeLSLTimestamps(Bool)** - *Default: True*
+
+        set False if you do not want to use the specific LSL-messages with included timestamp. If set to False the synchronizer will stream the received LSL data with standard ROS-messages if they exist.  
 
 * **lsl_maps.yaml**
     ```yaml
@@ -84,11 +101,11 @@ To configure package you need to edit the *.yaml files within the *Config* direc
     ```
     * **ROStoLSL (List)** - *Default: Empty*
 
-        Contains all mapps from ROS -> LSL.
+        Contains all maps from ROS -> LSL.
 
     * **LSLtoROS (List)** - *Default: Empty*
     
-        Contains all mapps from LSL -> ROS.
+        Contains all maps from LSL -> ROS.
 
     * **commonType (String)**
 
@@ -100,9 +117,9 @@ To configure package you need to edit the *.yaml files within the *Config* direc
 
     * **lslChannelInfo (String)**
 
-        The corresponding LSL-Channelinfo used to push OR pull from the LSL stream. 
+        The corresponding LSL-Channel info used to push OR pull from the LSL stream. 
 
-## Add new types
+## Add new types and Converters
 To integrate new types you need to add new converters to the 
 project. In order to do so, you need to follow this steps:
 
@@ -116,12 +133,12 @@ project. In order to do so, you need to follow this steps:
    float32 data
    ```
 
-   A custom LSL-ROS-Messages just contains the LSLHeader (which will include the LSL-Timestamp as a single float64) and the specific data we want to sync between the systems. Feel free to expand the messages with additional data entries but make sure to map it correctely in the specific converter class (see 2.)  
+   A custom LSL-ROS-Messages just contains the LSLHeader (which will include the LSL-Timestamp as a single float64) and the specific data we want to sync between the systems. Feel free to expand the messages with additional data entries but make sure to map it correctly in the specific converter class (see 2.)  
 
 
 2. **Create a new ConverterClass based on the *ConverterBase*-Class**:
 
-    Second we need to create a new ConverterClass. Place the new converter in the *./pysrc/labstreaminglayer_ros/Converter* Directory and inherit from the *ConverterBase*-Class. Implement the converter methods **__ init __**, **ToLSL** and **ToLSL** as shown in the following example.
+    Second we need to create a new ConverterClass. Place the new converter in the *./pysrc/labstreaminglayer_ros/Converter* Directory and inherit from the *ConverterBase*-Class. Implement the converter methods **__ init __**, **ToLSL**, **ToROS** and **ToROSStd** as shown in the following example.
     
     **Float32.py**
     ```python
@@ -144,14 +161,21 @@ project. In order to do so, you need to follow this steps:
                 lslType="float32"
                 )
 
+        #the following three methods have been taken from the base class ConverterBase. If you stick to the design recommendation, and you are able to wrap your new type into one common ROS-Type (data in the specific message cf. 1.) you may not need to implement this methods in your new converter. 
+
+
         #contains the routine we need to convert the data from ROS to a raw LSL-Stream
-        @staticmethod
-        def ToLSL(data):
+        def ToLSL(self, data):
             return [data.data]
+        
+        #contains the routine we need to convert the data from LSL to a STANDARD ROS message without LSL-Timestamps
+        def ToROSStd(self, data):
+            msg = self.rosStdType()
+            msg.data = data[0][0]
+            return msg
 
         #contains the routine we need to convert the data from a raw LSL-Streams to the specific ROS-Message
-        @staticmethod
-        def ToROS(data):
+        def ToROS(self, data):
             #create LSL-Specific ROS-Message
             msg = message()
             #index 0 contains the data
@@ -161,7 +185,7 @@ project. In order to do so, you need to follow this steps:
 
             return msg
     ```
-    You should be able to do basicly what you want withing the converters you just need to keep to the defined ROS-message and LSL structures at the end.
+    You should be able to do basically what you want within the converters you just need to stick to the defined ROS-message and LSL structures at the end.
 
 3. **Add the new converter to the _ _init_ _ file of the converter directory**:
 
@@ -207,5 +231,5 @@ This work uses parts from:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Citation
-This work is just indirectly involved in my research. See other repositories for specific research projects and citations.
+This work is just indirectly involved in our research. See other repositories for specific research projects and citations.
 
