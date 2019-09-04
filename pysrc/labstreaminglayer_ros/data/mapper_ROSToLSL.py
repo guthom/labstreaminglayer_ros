@@ -6,14 +6,15 @@ from pylsl import StreamOutlet
 projectDir = os.path.join(os.path.dirname(__file__), '../')
 
 class Mapper_ROStoLSL(Mapper):
-    def __init__(self, commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional):
+    def __init__(self, commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional, includeLSLTimestamps):
 
         self.binarySubscriber = None
         self.lslStreamInfo = None
 
-        super(Mapper_ROStoLSL, self).__init__(commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional)
+        super(Mapper_ROStoLSL, self).__init__(commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional,
+                                              includeLSLTimestamps)
 
-        if useLSLTypesBidirectional is False and self.converter.rosStdType is not None:
+        if useLSLTypesBidirectional is False and self.converter.rosStdType:
             self.subscriber = rospy.Subscriber(self.topic, self.converter.rosStdType, self.SubscriberCallback)
         else:
             self.subscriber = rospy.Subscriber(self.topic, self.converter.rosType, self.SubscriberCallback)

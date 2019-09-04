@@ -1,2 +1,3 @@
 cyclicMode: True
 useLSLTypesBidirectional: False
+includeLSLTimestamps: False

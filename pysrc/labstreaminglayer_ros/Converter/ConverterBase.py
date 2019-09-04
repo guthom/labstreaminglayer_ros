@@ -10,6 +10,7 @@ class ConverterBase(object):
         self.lslChannels = lslChannels
         self.lslType = lslType
 
+
     def ExtractRosType(self, msgName):
         #used to extract message type from name string
         if msgName is None:
@@ -19,10 +20,16 @@ class ConverterBase(object):
         msg_type = name[1]
         return getattr(import_module(ros_pkg), msg_type)
 
-    @staticmethod
-    def ToLSL(data):
-        raise Exception("ToLSL Method is not implemented yet! DO IT!")
+    def ToLSL(self, data):
+        return [data.data]
 
-    @staticmethod
-    def ToROS(data):
-        raise Exception("ToROS Method is not implemented yet! DO IT!")
+    def ToROSStd(self, data):
+        msg = self.rosStdType()
+        msg.data = data[0][0]
+        return msg
+
+    def ToROS(self, data):
+        msg = self.rosType()
+        msg.data = data[0][0]
+        msg.header.timestamp = data[1]
+        return msg

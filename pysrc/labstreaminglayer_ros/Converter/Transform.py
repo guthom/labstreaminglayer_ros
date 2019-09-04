@@ -13,8 +13,7 @@ class Transform(ConverterBase):
             lslType="float32"
             )
 
-    @staticmethod
-    def ToLSL(data):
+    def ToLSL(self, data):
         translation = data.translation
         rotation = data.rotation
         return [translation.x, translation.y, translation.z, rotation.x, rotation.y, rotation.z, rotation.w]

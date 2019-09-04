@@ -14,15 +14,17 @@ from data.mapper_ROSToLSL import Mapper_ROStoLSL
 
 class LabStreaminLayerSynchronizer:
 
-    cyclicMode = True
-    rawTopics_LSLtoROS = None
-    rawTopics_ROStoLSL = None
-    nodeTopic = ""
-    mapper = []
 
     def __init__(self):
         self.mapper = []
-        pass
+
+        self.cyclicMode = True
+        self.rawTopics_LSLtoROS = None
+        self.rawTopics_ROStoLSL = None
+        self.nodeTopic = ""
+
+        self.useLSLTypesBidirectional = True
+        self.includeLSLTimestamps = True
 
     def Init(self):
         rospy.init_node(config.nodeName)
@@ -35,6 +37,7 @@ class LabStreaminLayerSynchronizer:
     def InitParameter(self):
         self.cyclicMode = rospy.get_param(self.nodeTopic + "/cyclicMode", default=True)
         self.useLSLTypesBidirectional = rospy.get_param(self.nodeTopic + "/useLSLTypesBidirectional", default=False)
+        self.includeLSLTimestamps = rospy.get_param(self.nodeTopic + "/includeLSLTimestamps", default=True)
 
         self.rawTopics_ROStoLSL = rospy.get_param(self.nodeTopic + "/" + config.param_MapsSubtopic +
                                                   "ROStoLSL", default=[])
@@ -51,7 +54,8 @@ class LabStreaminLayerSynchronizer:
         for map in self.rawTopics_LSLtoROS:
             self.mapper.append(Mapper_LSLtoROS(commonType=map["commonType"], topic=map["rostopic"],
                                                channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode,
-                                               useLSLTypesBidirectional=self.useLSLTypesBidirectional))
+                                               useLSLTypesBidirectional=self.useLSLTypesBidirectional,
+                                               includeLSLTimestamps=self.includeLSLTimestamps))
 
             rospy.loginfo("(LSL)" + self.mapper[-1].lslTopic + " -> " + self.mapper[-1].topic + "(ROS)" + " Type: " +
                           str(self.mapper[-1].converter.rosType))
@@ -65,7 +69,8 @@ class LabStreaminLayerSynchronizer:
         for map in self.rawTopics_ROStoLSL:
             self.mapper.append(Mapper_ROStoLSL(commonType=map["commonType"], topic=map["rostopic"],
                                                channelInfo=map["lslChannelInfo"], cyclicMode=self.cyclicMode,
-                                               useLSLTypesBidirectional=self.useLSLTypesBidirectional))
+                                               useLSLTypesBidirectional=self.useLSLTypesBidirectional,
+                                               includeLSLTimestamps=self.includeLSLTimestamps))
 
             rospy.loginfo("(ROS)" + self.mapper[-1].topic + " -> " + self.mapper[-1].lslTopic + "(LSL)" + " Type: "
                           + str(self.mapper[-1].converter.lslType))

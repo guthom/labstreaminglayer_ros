@@ -14,13 +14,3 @@ class Bool(ConverterBase):
             lslType="bool"
             )
 
-    @staticmethod
-    def ToLSL(data):
-        return [data.data]
-
-    @staticmethod
-    def ToROS(data):
-        msg = message()
-        msg.data = data[0][0]
-        msg.header.timestamp = data[1]
-        return msg

@@ -12,14 +12,3 @@ class ExoDataArray(ConverterBase):
             lslChannels=8,
             lslType="int32"
             )
-
-    @staticmethod
-    def ToLSL(data):
-        return [data.data]
-
-    @staticmethod
-    def ToROS(data):
-        msg = message()
-        msg.data = data[0]
-        msg.header.timestamp = data[1]
-        return msg

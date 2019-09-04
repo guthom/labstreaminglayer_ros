@@ -11,11 +11,12 @@ import nodeconfig as config
 
 class Mapper(object):
 
-    def __init__(self, commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional):
+    def __init__(self, commonType, topic, channelInfo, cyclicMode, useLSLTypesBidirectional, includeLSLTimestamps):
         self.converter = self.FindConverter(commonType)
         self.commonType = commonType
         self.topic = topic
         self.useLSLTypesBidirectional = useLSLTypesBidirectional
+        self.includeLSLTimestamps = includeLSLTimestamps
 
         if self.useLSLTypesBidirectional is True:
             self.converter.rosStdType = self.converter.rosType
@@ -75,6 +76,10 @@ class Mapper(object):
     def ToROS(self, data):
         if data is not None:
             return self.converter.ToROS(data)
+
+    def ToROSStd(self, data):
+        if data is not None:
+            return self.converter.ToROSStd(data)
 
     def ToLSL(self, data):
         if data is not None:

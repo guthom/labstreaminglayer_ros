@@ -13,8 +13,7 @@ class TransformStamped(Transform):
             lslType="float32"
             )
 
-    @staticmethod
-    def ToLSL(data):
+    def ToLSL(self, data):
         translation = data.transform.translation
         rotation = data.transform.rotation
         return [translation.x, translation.y, translation.z, rotation.x, rotation.y, rotation.z, rotation.w]

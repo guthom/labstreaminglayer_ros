@@ -12,14 +12,3 @@ class EEGLiveAmp(ConverterBase):
             lslChannels=32,
             lslType="float32"
             )
-
-    @staticmethod
-    def ToLSL(data):
-        return [data.data]
-
-    @staticmethod
-    def ToROS(data):
-        msg = message()
-        msg.data.extend(data[0])
-        msg.header.timestamp = data[1]
-        return msg
