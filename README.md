@@ -161,7 +161,7 @@ project. In order to do so, you need to follow this steps:
                 lslType="float32"
                 )
 
-        #the following three methods have been taken from the base class ConverterBase. If you stick to the design recommendation, and you are able to wrap your new type into one common ROS-Type (data in the specific message cf. 1.) you may not need to implement this methods in your new converter. 
+        #the following three methods have been taken from the  base class ConverterBase. If you stick to the design recommendation, and you are able to wrap your new type into one common ROS-Type (data in the specific message cf. 1.) you may not need to implement this methods in your new converter. 
 
 
         #contains the routine we need to convert the data from ROS to a raw LSL-Stream
