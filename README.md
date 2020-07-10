@@ -218,12 +218,9 @@ This work uses parts from:
 
 ## Authors
 * [**Thomas Gulde**](https://github.com/guthom) - [*Cognitive Systems Research Group*](https://cogsys.reutlingen-university.de/) - Reutlingen-University 
-
 * [**Marius Nann**](https://github.com/MariusNann) -
 [*Applied Neurotechnology Lab*](https://www.medizin.uni-tuebingen.de/de/en/Press/Our+Institutions+A+_+Z/Hospitals/Psychiatry+and+Psychotherapy/General+Psychiatry+and+Psychotherapy/Research/Applied+Neurotechnology+Lab.html) -  University Hospital Tübingen 
-
-
-
+* [**Michael Essich**](https://github.com/guthom) - [*Cognitive Systems Research Group*](https://cogsys.reutlingen-university.de/) - Reutlingen-University 
 
 
 ## License
